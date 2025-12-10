@@ -68,7 +68,7 @@ function App() {
   const calculateCost = async () => {
     try {
       let response
-      if (selectedParts.length) {
+      if (selectedPackage === '4') {
         response = await instance.post(`calculate_individual`, {
           model_id: selectedModel,
           film_id: selectedFilm,
@@ -128,7 +128,7 @@ function App() {
           >
             <option value=''>--Выберите модель--</option>
             {models.map((item) => (
-              <option value={item.car_brand_id} key={item.car_brand_id}>
+              <option value={item.id} key={item.id}>
                 {item.name}
               </option>
             ))}
@@ -172,26 +172,28 @@ function App() {
         </select>
       </div>
 
-      <div className='container'>
-        <label htmlFor='part-select'>Выберите части автомобиля:</label>
+      {selectedPackage === '4' && (
+        <div className='container'>
+          <label htmlFor='part-select'>Выберите части автомобиля:</label>
 
-        <select
-          multiple
-          name='parts'
-          id='parts-select'
-          value={selectedParts}
-          onChange={(e) => {
-            handleSelect(e.target.selectedOptions)
-          }}
-        >
-          <option value=''>--Выберите части--</option>
-          {parts.map((item) => (
-            <option value={item.id} key={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
-      </div>
+          <select
+            multiple
+            name='parts'
+            id='parts-select'
+            value={selectedParts}
+            onChange={(e) => {
+              handleSelect(e.target.selectedOptions)
+            }}
+          >
+            <option value=''>--Выберите части--</option>
+            {parts.map((item) => (
+              <option value={item.id} key={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       <button onClick={() => calculateCost()}>Рассчитать</button>
     </div>
